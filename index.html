@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animação de Zumbi</title>
+    <style>
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background-color: transparent;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="Sprite-Sheet-Example" width="640" height="480"></canvas>
+    
+    <script>
+        const canvas = document.getElementById("Sprite-Sheet-Example");
+        const ctx = canvas.getContext("2d");
+
+        const spriteSheet = new Image();
+        spriteSheet.src = "img/Sprite-Sheet-Example.png";
+
+        const frameWidth = 64;
+        const frameHeight = 64;
+        const totalFrames = 10;
+
+        let currentFrame = 0;
+        const frameTime = 100;
+        let lastFrameTime = 0;
+
+        const centerX = (canvas.width - frameWidth) / 2;
+        const centerY = (canvas.height - frameHeight) / 2;
+
+        function animate(time) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (time - lastFrameTime > frameTime) {
+                currentFrame = (currentFrame + 1) % totalFrames;
+                lastFrameTime = time;
+            }
+
+            ctx.drawImage(
+                spriteSheet,
+                currentFrame * frameWidth, 0,
+                frameWidth, frameHeight,
+                centerX, centerY,
+                frameWidth, frameHeight
+            );
+
+            requestAnimationFrame(animate);
+        }
+
+        spriteSheet.onload = () => {
+            requestAnimationFrame(animate);
+        };
+    </script>
+</body>
+</html>
